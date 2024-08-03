@@ -64,7 +64,10 @@ int	count_letters(char *str)
 	return (letters);
 }
 
-/* int	count_sentences(char *str)
+int	count_sentences(char *str)
 {
+	int	i = 0;
+	int sentences = 0;
 
-} */
+	
+}
