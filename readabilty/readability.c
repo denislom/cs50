@@ -1,96 +1,70 @@
-#include <cs50.h>
-#include <stdio.h>
+/* 
+index = 0.0588 * L - 0.296 * S - 15.8
+L: average number of letter per 100 words in the text
+S: average number of sentences per 100 words in the text
+
+clang -lcs50 readability.c 
+ */
 #include <ctype.h>
-#include <string.h>
+#include <cs50.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
-// int L_avg_nr_letters(char *s);
-// int S_avg_nr_sentences(char *s);
-int count_words(char *s);
-int count_sentences(char *s);
-int count_letters(char *s);
+int	count_words(char *str);
+int	count_letters(char *str);
+int	count_sentences(char *str);
 
-// index = 0.0588 * L - 0.296 * S - 15.8
-int main(void)
+
+int	main(void)
 {
-    int words;
-    char *text;
-    int sentences;
-    int letters;
-    float L;
-    float S;
-    int index;
+	// Prompt the user for some text
+	char *str = get_string("Text: ");
+	int	letters = 0;
+	int	words = 0;
+	int	sentences = 0;
+	int	i = 0;
 
-    text = get_string("Text: ");
-    words = count_words(text);
-    sentences = count_sentences(text);
-    letters = count_letters(text);
-    // printf("Obtained text is: \n%s\nCount of words: %i\nCount of sentences: %i\nCount of letters: %i\n",text, words, sentences, letters);
-    L = ((float)letters / (float)words / 100);
-    S = ((float)sentences / (float)words / 100);
-    index = 0.0588 * L - 0.296 * S - 15.8;
-    if (index > 16)
-    {
-        printf("Grade 16+\n");
-    }
-    else if (index < 1)
-    {
-        printf("Before Grade 1\n");
-    }
-    else
-    {
-        printf("Grade %i\n", index);
-    }
-    return (0);
+	// Count the number of letters, words, and sentences in the text
+	letters = count_letters(str);
+	words = count_words(str);
+
+	// Compute the Coleman-Liau index
+
+	// Print the grade level
+	printf("Letters: %d\n", letters);
+	printf("Words: %d\n", words);
 }
 
-int count_words(char *s)
+int	count_words(char *str)
 {
-    int words;
-    int i;
+	int	i = 0;
+	int	words = 0;
 
-    words = 0;
-    i = 0;
-    while(s[i] != '\0')
-    {
-        if (s[i] == ' ')
-            words++;
-        i++;
-    }
-    words++;
-    return (words);
+	while (str[i])
+	{
+		if (isalpha(str[i]) && !isalpha(str[i + 1]))
+			words++;
+		i++;
+	}
+	return (words);
 }
 
-int count_sentences(char *s)
+int	count_letters(char *str)
 {
-    int i;
-    int sentences;
+	int	i = 0;
+	int	letters = 0;
 
-    i = 0;
-    sentences = 0;
-    while(s[i] == ' ')
-        i++;
-    while(s[i] != '\0')
-    {
-        if(s[i] == '!' || s[i] == '?' || s[i] == '.')
-            sentences++;
-        i++;
-    }
-    return (sentences);
+	while (str[i])
+	{
+		if(isalpha(str[i]))
+			letters++;
+		i++;
+	}
+	return (letters);
 }
 
-int count_letters(char *s)
+/* int	count_sentences(char *str)
 {
-    int i;
-    int letters;
 
-    i = 0;
-    letters = 0;
-    while(s[i] != '\0')
-    {
-        if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'))
-            letters++;
-        i++;
-    }
-    return (letters);
-}
+} */
