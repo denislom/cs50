@@ -1,6 +1,7 @@
 #include <cs50.h>
 #include <stdio.h>
- //cc compare.c -o compare -lcs50
+//cc compare.c -o compare -lcs50
+//cc compare.c -o compare -lcs50
 
 int main(void)
 {
